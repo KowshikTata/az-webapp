@@ -3,24 +3,24 @@ using System.Data.SqlClient;
 
 namespace dbapp.Services
 {
-  
+
     // This service will interact with our Product data in the SQL database
-    public class ProductService
+    public class ProductService : IProductService
     {
-        private static string db_source = "testtata3.database.windows.net";
-        private static string db_user = "sqlusr";
-        private static string db_password = "Azure@123";
-        private static string db_database = "mydb2";
+
+        private readonly IConfiguration _configuration;
+
+        ProductService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
 
         private SqlConnection GetConnection()
         {
 
-            var _builder = new SqlConnectionStringBuilder();
-            _builder.DataSource = db_source;
-            _builder.UserID = db_user;
-            _builder.Password = db_password;
-            _builder.InitialCatalog = db_database;
-            return new SqlConnection(_builder.ConnectionString);
+
+            return new SqlConnection(_configuration.GetConnectionString("SQLConnection");
         }
         public List<Product> GetProducts()
         {
